@@ -1,4 +1,5 @@
 # Import your model:
+from model import GradientDescentLinearRegression
 from model import LinearRegression
 from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
@@ -46,7 +47,8 @@ def main():
     X_train, X_test, y_train, y_test = get_housing_data()
 
     # Create a linear regression model:
-    lr = LinearRegression()
+    # lr = LinearRegression()
+    lr = GradientDescentLinearRegression()
 
     # Fit the model to the training data:
     lr.fit(X_train, y_train)
@@ -58,4 +60,8 @@ def main():
     mse = mean_squared_error(y_test, y_pred)
 
     # Print the mean squared error:
-    print("Mean squared error: {:.2f}".format(mse))
+    print("Mean squared error: {:.4f}".format(mse))
+
+
+if __name__ == "__main__":
+    main()
