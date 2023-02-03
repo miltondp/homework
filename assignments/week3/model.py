@@ -13,7 +13,7 @@ class MLP(torch.nn.Module):
         input_size: int,
         hidden_units: Union[int, List[int]],
         num_classes: int,
-        activations: Union[Callable, List[Callable]] = torch.nn.ReLU,
+        activations: Union[str, Callable, List[str], List[Callable]] = torch.nn.ReLU,
         initializer: Callable = torch.nn.init.xavier_uniform_,
     ) -> None:
         """
@@ -34,14 +34,36 @@ class MLP(torch.nn.Module):
         if isinstance(hidden_units, int):
             hidden_units = [hidden_units]
 
+        _activation_functions = []
+
         if isinstance(activations, list):
             assert len(activations) == len(
                 hidden_units
             ), "Number of activation functions must match number of hidden layers"
 
-            self.activations = [a() for a in activations]
+            for a in activations:
+                if isinstance(a, Callable):
+                    _activation_functions.append(a())
+                elif isinstance(a, str):
+                    exec(f"self._actv = torch.nn.{a}")
+                    _activation_functions.append(self._actv())
+                else:
+                    raise ValueError(
+                        "activations must be a function or a string with the name of a function"
+                    )
         else:
-            self.activations = [activations() for _ in hidden_units]
+            if isinstance(activations, str):
+                exec(f"self._actv = torch.nn.{activations}")
+            elif isinstance(activations, Callable):
+                self._actv = activations
+            else:
+                raise ValueError(
+                    "activations must be a function or a string with the name of a function"
+                )
+
+            _activation_functions = [self._actv() for _ in hidden_units]
+
+        self.activations = _activation_functions
 
         # add a dummy activation function (identity) for the last layer
         self.activations.append(torch.nn.Identity())
