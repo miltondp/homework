@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Union, List
 
 import torch
 
@@ -11,9 +11,9 @@ class MLP(torch.nn.Module):
     def __init__(
         self,
         input_size: int,
-        hidden_units: list,
+        hidden_units: Union[int, List[int]],
         num_classes: int,
-        activations: list = torch.nn.ReLU,
+        activations: Union[Callable, List[Callable]] = torch.nn.ReLU,
         initializer: Callable = torch.nn.init.xavier_uniform_,
     ) -> None:
         """
