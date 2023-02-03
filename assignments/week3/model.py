@@ -14,7 +14,7 @@ class MLP(torch.nn.Module):
         hidden_units: Union[int, List[int]],
         num_classes: int,
         activations: Union[str, Callable, List[str], List[Callable]] = torch.nn.ReLU,
-        initializer: Callable = torch.nn.init.xavier_uniform_,
+        initializer: Union[Callable, str] = torch.nn.init.xavier_uniform_,
     ) -> None:
         """
         Initialize the MLP.
@@ -78,7 +78,15 @@ class MLP(torch.nn.Module):
             layer = torch.nn.Linear(current_input_size, layer_n_units)
 
             if initializer is not None:
-                initializer(layer.weight)
+                if isinstance(initializer, str):
+                    exec(f"self._init = torch.nn.init.{initializer}")
+                    self._init(layer.weight)
+                elif isinstance(initializer, Callable):
+                    initializer(layer.weight)
+                else:
+                    raise ValueError(
+                        "initializer must be a function or a string with the name of a function"
+                    )
 
             self.layers.append(layer)
             current_input_size = layer_n_units
