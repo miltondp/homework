@@ -17,8 +17,8 @@ def create_model(input_dim: int, output_dim: int) -> MLP:
     """
     return MLP(
         input_dim,
-        [128, 64],
+        [128, 64, 32],
         output_dim,
-        torch.nn.ReLU,
+        [torch.nn.ReLU, torch.nn.ReLU, torch.nn.Sigmoid],
         torch.nn.init.xavier_uniform_,
     )
