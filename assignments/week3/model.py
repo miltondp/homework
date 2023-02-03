@@ -11,9 +11,9 @@ class MLP(torch.nn.Module):
     def __init__(
         self,
         input_size: int,
-        hidden_units: int | list[int],
+        hidden_units: list,
         num_classes: int,
-        activations: Callable | list[Callable] = torch.nn.ReLU,
+        activations: list = torch.nn.ReLU,
         initializer: Callable = torch.nn.init.xavier_uniform_,
     ) -> None:
         """
@@ -21,8 +21,8 @@ class MLP(torch.nn.Module):
 
         Arguments:
             input_size: The dimension D of the input data.
-            hidden_units: A list with the number neurons each layer. The number of layers is inferred from
-                the length of the list.
+            hidden_units: A single integer with the number of neurons for a single layer. Or a list with the number
+                neurons in each layer; in this case, the number of layers is inferred from the length of the list.
             num_classes: The number of classes C.
             activations: The activation functions to use in the hidden layer. Can be a single function (it will be the
                 same across all layers) or a list of functions (in this case the number of functions must match the
