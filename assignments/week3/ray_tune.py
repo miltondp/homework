@@ -5,7 +5,7 @@ from ray.tune.search import ConcurrencyLimiter
 from ray.tune.search.optuna import OptunaSearch
 
 from model import MLP
-from main_tune import get_mnist_data, train
+from main_complex import get_mnist_data, train
 
 
 # 1. Wrap a PyTorch model in an objective function.
@@ -22,7 +22,7 @@ def objective(config):
         layers,
         10,
         config["activation"],
-        torch.nn.init.xavier_uniform_,
+        config["initiation"],
     )
 
     while True:
@@ -47,13 +47,14 @@ if __name__ == "__main__":
         "layer_3": tune.choice([2**i for i in range(0, 12)]),
         "layer_4": tune.choice([2**i for i in range(0, 12)]),
         "activation": tune.choice(["ReLU", "Tanh", "Sigmoid"]),
+        "initiation": tune.choice(["xavier_uniform_", "xavier_normal_"]),
     }
 
     algo = OptunaSearch()
     algo = ConcurrencyLimiter(algo, max_concurrent=20)
 
     # 3. Start a Tune run that maximizes mean accuracy and stops after 5 iterations.
-    trainable_with_resources = tune.with_resources(objective, {"cpu": 1, "gpu": 0.15})
+    trainable_with_resources = tune.with_resources(objective, {"cpu": 1, "gpu": 0.10})
     tuner = tune.Tuner(
         trainable_with_resources,
         # objective,
