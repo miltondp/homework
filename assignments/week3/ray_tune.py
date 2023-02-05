@@ -1,6 +1,7 @@
 import torch
 from ray import tune, air
 from ray.air import session
+from ray.tune import CLIReporter
 from ray.tune.search import ConcurrencyLimiter
 from ray.tune.search.optuna import OptunaSearch
 
@@ -15,7 +16,7 @@ def objective(config):
     # test_loader.num_workers = 2
 
     layers = [v for k, v in config.items() if k.startswith("layer_") and v > 1]
-    print(layers)
+    # print(layers)
 
     model = MLP(
         784,
@@ -55,6 +56,9 @@ if __name__ == "__main__":
 
     # 3. Start a Tune run that maximizes mean accuracy and stops after 5 iterations.
     trainable_with_resources = tune.with_resources(objective, {"cpu": 1, "gpu": 0.10})
+
+    reporter = CLIReporter(max_progress_rows=20, sort_by_metric=True)
+
     tuner = tune.Tuner(
         trainable_with_resources,
         # objective,
@@ -67,6 +71,7 @@ if __name__ == "__main__":
         run_config=air.RunConfig(
             name="cis522_hw3",
             local_dir="data",
+            progress_reporter=reporter,
             stop={"training_iteration": 1},
         ),
         param_space=search_space,
