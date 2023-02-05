@@ -44,10 +44,10 @@ if __name__ == "__main__":
         "layer_0": tune.choice([2**i for i in range(0, 12)]),
         "layer_1": tune.choice([2**i for i in range(0, 12)]),
         "layer_2": tune.choice([2**i for i in range(0, 12)]),
-        "layer_3": tune.choice([2**i for i in range(0, 12)]),
-        "layer_4": tune.choice([2**i for i in range(0, 12)]),
-        "activation": tune.choice(["ReLU", "Tanh", "Sigmoid"]),
-        "initiation": tune.choice(["xavier_uniform_", "xavier_normal_"]),
+        "activation": tune.choice(["ReLU", "LeakyReLU", "Sigmoid"]),
+        "initiation": tune.choice(
+            ["xavier_uniform_", "xavier_normal_", "kaiming_normal_", "kaiming_uniform_"]
+        ),
     }
 
     algo = OptunaSearch()
@@ -62,7 +62,7 @@ if __name__ == "__main__":
             metric="mean_accuracy",
             mode="max",
             search_alg=algo,
-            num_samples=100,
+            num_samples=1000,
         ),
         run_config=air.RunConfig(
             name="cis522_hw3",
