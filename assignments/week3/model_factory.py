@@ -18,6 +18,6 @@ def create_model(input_dim: int, output_dim: int) -> MLP:
         input_dim,
         [1024, 2048, 128],
         output_dim,
-        torch.nn.ReLU,
+        ["ReLU", "ReLU", "Sigmoid"],
         torch.nn.init.xavier_normal_,
     )
