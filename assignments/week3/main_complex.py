@@ -41,6 +41,8 @@ _transform_list = [
         ],
         p=0.50,
     ),
+    transforms.RandomHorizontalFlip(p=0.50),
+    transforms.RandomVerticalFlip(p=0.50),
     transforms.RandomApply(
         [
             transforms.Grayscale(),
