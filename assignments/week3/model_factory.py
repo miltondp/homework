@@ -16,8 +16,8 @@ def create_model(input_dim: int, output_dim: int) -> MLP:
     """
     return MLP(
         input_dim,
-        [1024, 2048, 256],
+        [2048, 2048, 256],
         output_dim,
-        ["ReLU", "ReLU", "ReLU"],
-        torch.nn.init.xavier_normal_,
+        "ReLU",
+        torch.nn.init.kaiming_uniform_,
     )
