@@ -2,11 +2,12 @@
     "assignment_name": "RegOpt",
     "contributors": [
         {
-            "name": "Change this to your name",
-            "pennkey": "MyPennKey"
+            "name": "Milton Pividori",
+            "pennkey": "miltondp"
         }
     ],
     "sources": [
-        "Don't forget to list your sources/attribution here!"
+        "GitHub Copilot",
+        "Stack Overflow for minor coding questions"
     ]
 }
