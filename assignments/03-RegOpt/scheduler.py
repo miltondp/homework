@@ -4,6 +4,10 @@ from torch.optim.lr_scheduler import _LRScheduler
 
 
 class CustomLRScheduler(_LRScheduler):
+    """
+    A custom learning rate scheduler.
+    """
+
     def __init__(self, optimizer, last_epoch=-1):
         """
         Create a new scheduler.
@@ -16,6 +20,9 @@ class CustomLRScheduler(_LRScheduler):
         super(CustomLRScheduler, self).__init__(optimizer, last_epoch)
 
     def get_lr(self) -> List[float]:
+        """
+        Return the current learning rate for each parameter group.
+        """
         # Note to students: You CANNOT change the arguments or return type of
         # this function (because it is called internally by Torch)
 
