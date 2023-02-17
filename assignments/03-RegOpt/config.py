@@ -14,6 +14,7 @@ class CONFIG:
     lrs_kwargs = {
         # You can pass arguments to the learning rate scheduler
         # constructor here.
+        "gamma": 0.5,
     }
 
     optimizer_factory: Callable[
