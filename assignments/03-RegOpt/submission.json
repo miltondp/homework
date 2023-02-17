@@ -8,6 +8,7 @@
     ],
     "sources": [
         "GitHub Copilot",
-        "Stack Overflow for minor coding questions"
+        "Stack Overflow for minor coding questions",
+        "https://pytorch.org/docs/stable/_modules/torch/optim/lr_scheduler.html"
     ]
 }
