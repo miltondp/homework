@@ -8,7 +8,8 @@ class CustomLRScheduler(_LRScheduler):
     A custom learning rate scheduler.
     """
 
-    STEPS_PER_EPOCH = 781.0
+    # STEPS_PER_EPOCH = 781
+    STEPS_PER_EPOCH = 100
 
     def __init__(self, optimizer, gamma, last_epoch=-1):
         """
@@ -30,7 +31,7 @@ class CustomLRScheduler(_LRScheduler):
         if (self.last_epoch == 0) or (self.last_epoch % self.STEPS_PER_EPOCH != 0):
             return [group["lr"] for group in self.optimizer.param_groups]
 
-        current_epoch = (self.last_epoch / self.STEPS_PER_EPOCH) - 1
+        current_epoch = (self.last_epoch / self.STEPS_PER_EPOCH * 1.0) - 1
 
         vals = [
             group["lr"] * (self.gamma**current_epoch)
