@@ -8,8 +8,8 @@ class CustomLRScheduler(_LRScheduler):
     A custom learning rate scheduler.
     """
 
-    # STEPS_PER_EPOCH = 781
-    STEPS_PER_EPOCH = 100
+    STEPS_PER_EPOCH = 781
+    # STEPS_PER_EPOCH = 100
 
     def __init__(self, optimizer, gamma, last_epoch=-1):
         """
